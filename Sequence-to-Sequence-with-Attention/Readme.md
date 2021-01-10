@@ -14,7 +14,7 @@ Here is the another model,
 
 ![](https://github.com/bentrevett/pytorch-seq2seq/blob/master/assets/seq2seq7.png?raw=1)
 
-Architecture in this is set-up in a way to reduce "information compression" by explicitly passing the context vector, $z$, to the decoder at every time-step and by passing both the context vector and embedded input word, $d(y_t)$, along with the hidden state, $s_t$, to the linear layer, $f$, to make a prediction.
+Architecture in this is set-up in a way to reduce "information compression" by explicitly passing the context vector, z, to the decoder at every time-step and by passing both the context vector and embedded input word, d(y_t), along with the hidden state, s_t, to the linear layer, f, to make a prediction.
 
 In this model, even though we could reduce some of this compression, our context vector still needs to contain all of the information about the source sentence. 
 
@@ -25,7 +25,7 @@ Next, is the attention model from [Neural Machine Translation by Jointly Learnin
 
 The model implemented in this notebook avoids this compression by allowing the decoder to look at the entire source sentence (via its hidden states) at each decoding step! How does it do this? It uses *attention*. 
 
-Attention works by first, calculating an attention vector, $a$, that is the length of the source sentence. The attention vector has the property that each element is between 0 and 1, and the entire vector sums to 1. We then calculate a weighted sum of our source sentence hidden states, $H$, to get a weighted source vector, $w$. 
+Attention works by first, calculating an attention vector, a, that is the length of the source sentence. The attention vector has the property that each element is between 0 and 1, and the entire vector sums to 1. We then calculate a weighted sum of our source sentence hidden states, H, to get a weighted source vector, w. 
 
 $$w = \sum_{i}a_ih_i$$
 
