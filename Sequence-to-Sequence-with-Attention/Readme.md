@@ -1,4 +1,4 @@
-Here, ee'll be building a machine learning model to go from once sequence to another, using PyTorch and TorchText. This will be done on English to German translations, but the models can be applied to any problem that involves going from one sequence to another, such as summarization, i.e. going from a sequence to a shorter sequence in the same language.
+Here, we'll be building a machine learning model to go from once sequence to another, using PyTorch and TorchText. This will be done on English to German translations, but the models can be applied to any problem that involves going from one sequence to another, such as summarization, i.e. going from a sequence to a shorter sequence in the same language.
 
 
 ## Introduction:
