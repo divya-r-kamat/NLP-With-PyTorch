@@ -1,6 +1,5 @@
-# Machine translation using Transformers [Link to Code](MachineTranslation_Using_Transformers_Attention_is_all_you_need.ipynb)
-
-In this notebook,  we’ll focus on one paper that started it all, [Attention is all you need!](https://arxiv.org/abs/1706.03762v5) and train a model to translate German to English
+# Machine translation using Transformers
+In this [notebook](MachineTranslation_Using_Transformers_Attention_is_all_you_need.ipynb), we’ll focus on one paper that started it all, [Attention is all you need!](https://arxiv.org/abs/1706.03762v5) and train a model to translate German to English
 
 Below is the architecture of the model as mentioned in the paper.
 
@@ -10,9 +9,9 @@ Below is the architecture of the model as mentioned in the paper.
 
 
 
-# Chatbot Using Transformers [Link to Code](Chatbot_using_transformer.ipynb)
+# Chatbot Using Transformers
 
-In this notebook, we will train a simple chatbot using movie
+In this [notebook](Chatbot_using_transformer.ipynb), we will train a simple chatbot using movie
 scripts from the [Cornell Movie-Dialogs
 Corpus](https://www.cs.cornell.edu/~cristian/Cornell_Movie-Dialogs_Corpus.html).
 
