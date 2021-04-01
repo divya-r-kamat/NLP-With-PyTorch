@@ -20,7 +20,7 @@ Following are the different types of loss functions in PyTorch:
 
 ## Reference
 
-[PyTorch Loss Functions: The Ultimate Guide](https://neptune.ai/blog/pytorch-loss-functions)
-[CS230 Stanford Blog](https://cs230.stanford.edu/blog/pytorch/#loss-function)
-[PyTorch Implementation of Loss](https://analyticsindiamag.com/all-pytorch-loss-function/)
+- [PyTorch Loss Functions: The Ultimate Guide](https://neptune.ai/blog/pytorch-loss-functions)
+- [CS230 Stanford Blog](https://cs230.stanford.edu/blog/pytorch/#loss-function)
+- [PyTorch Implementation of Loss](https://analyticsindiamag.com/all-pytorch-loss-function/)
 
