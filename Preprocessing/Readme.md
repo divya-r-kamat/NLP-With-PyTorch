@@ -8,6 +8,6 @@
 
 ## Reference
 
-https://github.com/jasonwei20/eda_nlp
-https://neptune.ai/blog/data-augmentation-nlp
-https://www.kaggle.com/shonenkov/nlp-albumentations
+- https://github.com/jasonwei20/eda_nlp
+- https://neptune.ai/blog/data-augmentation-nlp
+- https://www.kaggle.com/shonenkov/nlp-albumentations
