@@ -17,7 +17,7 @@ Data augmentation techniques are used to generate additional, synthetic data usi
 
 #### Things to keep in mind while doing NLP data augmentation:
 
-The main issue faced when training on augmented data is that algorithms, when done incorrectly, is that you heavily overfit the augmented training data.
+The main issue faced when training on augmented data is that, when done incorrectly, you heavily overfit the augmented training data.
 
 Some things to keep in mind:
   - Do not validate using the augmented data.
