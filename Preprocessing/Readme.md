@@ -5,6 +5,13 @@
 - NLP Albumentation
 - Padding
 
+## Text Preprocessing
+
+The key step in any AI or ML usecases is to clean and preprocess the data, below are few packages which could be handy while clean text data
+- [clean-text](https://pypi.org/project/clean-text/)
+- [texthero](https://pypi.org/project/texthero/)
+- [scrubadub](https://pypi.org/project/scrubadub/)
+
 ## Data Augmentation
 
 Data augmentation techniques are used to generate additional, synthetic data using the data you have. Augmentation methods are super popular in computer vision applications but they are just as powerful for NLP. 
