@@ -6,8 +6,14 @@
 - Padding
 
 ## Text Preprocessing
+The key step in any AI or ML usecases is to clean and preprocess the data:
 
-The key step in any AI or ML usecases is to clean and preprocess the data, below are few packages which could be handy while clean text data
+1. Normalization - One of the key steps in processing language data is to remove noise so that the machine can more easily detect the patterns in the data. Text data contains a lot of noise, this takes the form of special characters such as hashtags, punctuation and numbers. All of which are difficult for computers to understand if they are present in the data. We need to, therefore, process the data to remove these elements.
+2. Stopwords - Stop words are commonly occurring words that for some computational processes provide little information or in some cases introduce unnecessary noise and therefore need to be removed. However, there could be instances where the removal of stop words is either not advised or needs to be more carefully considered. 
+3. Stemming or Lemmatization - They aim to reduce words to their root form
+4. Part of Speech (POS) tagging and chunking - Part of speech (POS) tagging is a method to categorise words which gives some information relating to the way in which that word is used in speech. Chunking builds on POS tagging in that it uses the information from the POS tags to extract meaningful phrases from text. 
+
+below are few packages which could be handy while clean text data
 - [clean-text](https://pypi.org/project/clean-text/)
 - [texthero](https://pypi.org/project/texthero/)
 - [scrubadub](https://pypi.org/project/scrubadub/)
@@ -39,3 +45,4 @@ Some things to keep in mind:
 - https://github.com/jasonwei20/eda_nlp
 - https://neptune.ai/blog/data-augmentation-nlp
 - https://www.kaggle.com/shonenkov/nlp-albumentations
+- https://nlpforhackers.io/
