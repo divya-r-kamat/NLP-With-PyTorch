@@ -81,6 +81,53 @@ Following is the response:
 - The _index, _type, and _id attributes are derived from our incoming request and assigned to the document.
 - The _version indicates the current version of this document; the value 1 here means the first version for the document. The number is incremented if we modify the document and reindex it. Every time we execute the query the version gets updated.
 
+## Indexing Documents without an Identifier
+
+Not every document can carry an identifier. For example, heart beats from a machine, price ticks of a trade, events from an IoT device, and so on. 
+
+The documents that have no identifiers are indexed using a POST action without passing the identifier at the end. The syntax URL will be of the form:POST <index_name>/_doc. 
+    
+
+        curl -XPOST --header 'Content-Type: application/json' https://4b034f0fdb6a461f817c8803c352b0e6-2887150597-9200-host08nc.environments.katacoda.com/students/_doc -d '{
+            "name":"John Smith",
+            "age":23
+        }'
+    
+
+Response
+    
+        {"_index":"students",
+         "_id":"FZ4BQYQBrpdTQLQ2BZaW",
+         "_version":1,
+         "result":"created","_shards":{"total":2,"successful":1,"failed":0},"_seq_no":3,"_primary_term":1}
+ 
+## Adding Additional Data to the Documents
+
+We can add additional data to an existing student document using PUT.
+
+        PUT students/_doc/1
+        {
+            "name":"John Smith",
+            "age":23,
+            "address":{
+                "number":123,
+                "address1":"Awesome Street",
+                "address2":"Awesome Land",
+                "country":"Awesome Country",
+                "zipcode":"AWS OME"
+            }
+        }
+## Indexing Documents Using the _create Endpoint
+
+When we reindex a document, Elasticsearch will override the document with the new content, to avoid this we can use a _create endpoint in place of _doc. This avoids overriding an existing document. 
+
+        PUT students/_create/100
+        {
+          "name":"Elizabeth Lauren",
+          "age":21
+        }
+    
+If we need to protect the documents from being overwritten accidentally, we should use the _create API. Note that although the _create endpoint will not allow us to update the document, we can swap the _create endpoint with _doc to get it updated if that’s what the intention is.
     
 ## Reference
 - https://learning.oreilly.com/scenarios/elasticsearch-indexing-documents/9781098133931/
