@@ -82,3 +82,76 @@ We can set _source to false so the response will not include the original docume
 If we want to fetch just the source and ignore the metadata, we can swap_doc with the _source endpoint.
   
     GET books/_source/1
+
+## Manipulating Source Fields
+    
+The following query fetches three source attributes—title, author, and edition of the book while other fields are suppressed:
+
+    GET books/_source/1?_source_includes=title,author,edition
+
+If we wish to exclude one or two fields but get the rest of them, here's what we should do:
+
+    GET books/_source/1?_source_excludes=synopsis,tags
+    
+## Wildcard Fetching
+    
+We can also fetch source attributes using wildcards
+    
+    GET books/_source/999?_source_includes=title,price*
+    
+If we want to fetch all prices but ignore USD and CAD, the following code snippet does that (as they were excluded in _source_excludes flag):
+
+    GET books/_source/999?_source_includes=price*&_source_excludes=price_usd,price_cad
+    
+## Deleting Documents
+We can  delete documents from Elasticsearch, there are essentially two methods:
+
+- Deleting documents using an ID (can delete a single document)
+- Deleting documents using a query (can delete multiple documents in one go)
+
+    
+### Delete by ID
+deletes a single document from Elasticsearch by invoking the HTTP DELETE method on the indexing document API. This request deletes the book with ID 9 from the books index:
+    
+    DELETE books/_doc/9
+    
+### Delete by Query
+    
+Deleting a thousand or a million documents by using an ID is impractical. Fortunately, Elasticsearch provides an alternative to deleting using an ID: delete by a query. _delete_by_query finds and deletes all documents that match a criteria. The _delete_by_query API expects a JSON body that contains a query object. Inside the query we write match conditions.
+    
+    POST books/_delete_by_query
+    {
+      "query":{
+        "match": {
+          "author": "Divya"
+        }
+      }
+    }
+    
+The body of this POST uses a special syntax called Query DSL (domain-specific language), which can be used to pass in a variety of attributes, such as term, range, and match, as in this listing.
+    
+### Deleting Documents in a Range of Dates
+
+The range query expects a range of values, such as a range of dates or numbers.
+
+        POST books/_delete_by_query
+        {
+          "query":{
+            "range":{
+              "release_date":{
+                "gte":"2012-01-01",
+                "lte":"2015-01-01"
+              }
+            }
+          }
+        }
+    
+Delete ALL the documents from our index:
+
+        POST books/_delete_by_query
+        {
+          "query": {
+            "match_all": {}
+         }
+
+}
