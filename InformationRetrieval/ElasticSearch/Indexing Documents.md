@@ -1,4 +1,4 @@
-# ElasticSearch
+# Indexing Documents in Elastic Search
 
 ## Documents
 - In Elasticsearch, data is represented in JSON (JavaScript Object Notation) format—a simple text format that creates a visual representation of data in name-value pairs. We'll call a valid JSON file carrying some data a "document." 
