@@ -48,6 +48,39 @@ To index documents using Kibana, we invoke an endpoint and attach a payload to i
         "location": "provide-location"
       }
 
-  
+## Indexing a Document Using cURL
+    
+The following is a sample student document representing our first student, John Smith. Executing the following command cURL script will index the document:
+
+        curl -XPUT --header 'Content-Type: application/json' https://4b034f0fdb6a461f817c8803c352b0e6-2887150597-9200-host08nc.environments.katacoda.com/students/_doc/1 -d '{
+            "name":"John Smith",
+            "age":23
+        }'|json_pp
+    
+- -XPUT is a HTTP PUT instruction to the server.
+- Content-Type sets the document's format as JSON.
+- The URL preceding students/_doc/1 is the Elasticsearch server's address.
+    
+Following is the response:
+    
+        {
+           "_id" : "1",
+           "_index" : "students",
+           "_primary_term" : 1,
+           "_seq_no" : 0,
+           "_shards" : {
+              "failed" : 0,
+              "successful" : 1,
+              "total" : 2
+           },
+           "_version" : 1,
+           "result" : "created"
+        }
+    
+- The result attribute indicates the operation’s action: created indicates that the document was successfully indexed as a new document into Elasticsearch’s store.
+- The _index, _type, and _id attributes are derived from our incoming request and assigned to the document.
+- The _version indicates the current version of this document; the value 1 here means the first version for the document. The number is incremented if we modify the document and reindex it. Every time we execute the query the version gets updated.
+
+    
 ## Reference
 - https://learning.oreilly.com/scenarios/elasticsearch-indexing-documents/9781098133931/
