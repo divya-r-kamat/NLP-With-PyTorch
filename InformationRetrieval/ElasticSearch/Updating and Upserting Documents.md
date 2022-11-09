@@ -81,3 +81,18 @@ Add multiple fields all at once by writing a script. The notable difference is t
       }
     }
     
+## Upserts
+An upsert (short for update and insert) will update a document if it exists or indexes a new document if it does not exist.
+
+The following query shows upsert in action. It has two parts: a script and an upsert block. The script part is where you update the field of an existing document, while the upsert block consists of the new movie document information.
+
+    POST movies/_update/201
+    {
+      "script": {
+        "source": "ctx._source.boxoffice_gross_in_millions = 357.1"
+      },
+      "upsert": {
+        "title":"The Shawshank Redemption",
+        "boxoffice_gross_in_millions":100.0
+      }
+    }
