@@ -23,5 +23,5 @@ Of all these components, only tokenizers are mandatory.
   -  Simple Analyzer - tokenizes sentences at the occurrence of a non-letter: like a number, space, apostrophe, or hyphen.
   -  Keyword Analyzer - stores the text without any modifications or tokenization. That means the analyzer does not tokenize the text, nor does it apply filters or tokenizers. Instead, it is stored as a string representing a keyword data type 
   -  Whitespace Analyzer - splits the text into tokens when it encounters whitespaces
-  -  Language Analyzer
+  -  Language Analyzer - Elasticsearch provides a long list of language analyzers that are suitable when working with most languages. The list of analyzers are Arabic, Armenian, Basque, Bengali etc
 
