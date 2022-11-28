@@ -1,5 +1,7 @@
 # Managing Index
 
+An index is a logical collection of the data backed up by shards (both primary and replicas). Shards (Apache Lucene instances) are the software components that help store data in memory as well as flush to the data store. A newly created index is associated with a set number of shards and replicas, a mapping schema, and aliases. We can create an index to fit the needs and requirements.
+
 - When a document is indexed for the first time, Elasticsearch will create the index for us automatically.
 - We can read index details by issuing a GET <index_name> command.
 - The index holds mapping definitions, settings, and aliases.
