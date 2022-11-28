@@ -1,6 +1,6 @@
 ## Elastic Search
 
-My note on elastics search
+My notes on elastics search
 
 
 ## References
