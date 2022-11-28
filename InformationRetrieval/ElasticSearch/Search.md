@@ -29,6 +29,91 @@ Query DSL is a sophisticated, powerful, and expressive language that helps effic
     
 Invoke the _search endpoint with a query object (represented as JSON), passed in as the body of the request.
 
+## Term Level Search
+
+A term-level search is a structured search where the queries return results for exact matches. They search for structured data such as dates, numbers, and ranges. With this type of search, you don't care about how well the results match (like how well the documents correspond to the query) but that it returns the data (or not) if the query is matched.
+
+A term-level search produces a "Yes" or "No" binary result similar to the database’s WHERE clause. The basic idea is that the results are binary: the query results are fetched if the condition is met; otherwise, nothing is returned.
+
+Although the documents have a score associated with them, the scores really don't matter. The documents are returned if they match the query but not with relevancy. In fact, you can run term-level queries with a constant score. They can be cached by the server, thus, gaining a performance benefit should the same query be rerun. A traditional database search is like this kind of search.
+
+### Term Query
+One of the most common types of query in term-level searches is the term query. The term query's job is to fetch documents that exactly match a given field. The field is not analyzed; instead, it is matched against the value that’s stored as-is in the inverted index during indexing.
+
+    GET movies/_search
+    {
+      "query": {
+        "term": {
+          "title": "inception"
+        }
+      }
+    }
+    
+term queries are not analyzed; that is, the query criteria will be matched exactly with the values stored in the inverted indices. The reason for this is that Elasticsearch analyzes text fields during indexing as well as when searching but term-level queries are not analyzed.
+We shouldn't run term queries over text fields. If we want to use a term query to search text fields, make sure the text field has data in the form of enumerations or constants, instead of using title, use the title.keyword field. Keyword-typed fields will not be analyzed during indexing. So, when we indexed this movie, the field's value was stored as-is ("The Dark Knight") in the inverted index against the title.keyword
+
+    GET movies/_search
+    {
+      "query": {
+        "term": {
+          "title.keyword": "The Dark Knight"
+        }
+      }
+    }
+    
+### Range Queries
+To search through data that falls within a range: book sales during a particular period, movies with ratings in a certain boundary, and so on. You can use a range query for this type of searching.
+
+    GET movies/_search
+    {
+      "query": {
+        "range": {
+          "rating": {
+            "gte": 9.0,
+            "lte": 9.5
+          }
+        }
+      }
+    }
+    
+### IDs Queries
+The IDs query fetches matching documents given a set of document IDs. It’s a much simpler way to fetch documents in one go.
+
+    GET movies/_search
+    {
+      "query": {
+        "ids": { 
+          "values": [1,3,6,9]
+          } 
+        }
+    }
+    
+### Exists Queries
+
+Use the exists query to fetch documents for a given field if the field exists. If the respective fields exist in the documents Elasticsearch returns the matched documents else the returned results will be empty.
+
+The following query checks whether the movies index has documents with a field title as well as certificate:
+
+# This query searches if the title field exits
+    GET movies/_search
+    {
+      "query": {
+        "exists": {
+          "field": "title"
+        }
+      }
+    }
+
+# This query searches if the certificate field exits
+    GET movies/_search
+    {
+      "query": {
+        "exists": {
+          "field": "certificate"
+        }
+      }
+    }
+
 
 Note:
 - Elasticsearch returns the top ten results by default. We can modify this number by setting the size parameter on the query. The query in the next listing sets size as 5, returning the top five results in one go.
@@ -57,25 +142,61 @@ Note:
         }
       }
       }
-      
-## Term Level Search
+  
+### Terms Queries
 
-A term-level search is a structured search where the queries return results for exact matches. They search for structured data such as dates, numbers, and ranges. With this type of search, you don't care about how well the results match (like how well the documents correspond to the query) but that it returns the data (or not) if the query is matched.
-
-A term-level search produces a "Yes" or "No" binary result similar to the database’s WHERE clause. The basic idea is that the results are binary: the query results are fetched if the condition is met; otherwise, nothing is returned.
-
-Although the documents have a score associated with them, the scores really don't matter. The documents are returned if they match the query but not with relevancy. In fact, you can run term-level queries with a constant score. They can be cached by the server, thus, gaining a performance benefit should the same query be rerun. A traditional database search is like this kind of search.
-
-### Term Query
-One of the most common types of query in term-level searches is the term query. The term query's job is to fetch documents that exactly match a given field. The field is not analyzed; instead, it is matched against the value that’s stored as-is in the inverted index during indexing.
+The terms (note that this term is plural) query searches multiple criteria against a single field. If we have to search for all movies with a set of actors, like brando, pacino, and cann. The terms query expects a list of search words to be queried against a field, passed in as an array to the terms object. The array values will be searched against the existing documents.
 
     GET movies/_search
     {
       "query": {
-        "term": {
-          "title": "inception"
+        "terms": {
+          "actors": [
+            "brando",
+            "pacino",
+            "cann"
+          ]
+        }
+      }
+      
+### Prefix Queries
+If we wish to query for words using a prefix (the beginning of the word), we can use the prefix query.
+
+    GET movies/_search
+    {
+      "query": {
+        "prefix": {
+          "title": {
+            "value": "god"
+          }
         }
       }
     }
     
-term queries are not analyzed; that is, the query criteria will be matched exactly with the values stored in the inverted indices. The reason for this is that Elasticsearch analyzes text fields during indexing as well as when searching but term-level queries are not analyzed
+### Fuzzy Queries
+
+
+The fuzzy query below searches for a title beginning with "night" as the input value, Elasticsearch employs a Levenshtein distance (or edit distance) algorithm for searching similar terms.
+
+    GET movies/_search
+    {
+      "query": {
+        "fuzzy": {
+          "title": "night"
+        }
+      }
+    }
+Elasticsearch applies fuzziness=1 (as in the above code), meaning only one letter can be swapped, replaced, deleted, and so on. The fuzziness values are 0, 1, and 2. If we have more than a one letter, say two letters missing, we may need to set the fuzziness to 2.
+
+
+    GET movies/_search
+    {
+      "query": {
+        "fuzzy": {
+          "title": {
+            "value":"ight",
+            "fuzziness": 2
+          }
+        }
+      }
+    }
