@@ -65,3 +65,17 @@ A term-level search is a structured search where the queries return results for 
 A term-level search produces a "Yes" or "No" binary result similar to the database’s WHERE clause. The basic idea is that the results are binary: the query results are fetched if the condition is met; otherwise, nothing is returned.
 
 Although the documents have a score associated with them, the scores really don't matter. The documents are returned if they match the query but not with relevancy. In fact, you can run term-level queries with a constant score. They can be cached by the server, thus, gaining a performance benefit should the same query be rerun. A traditional database search is like this kind of search.
+
+### Term Query
+One of the most common types of query in term-level searches is the term query. The term query's job is to fetch documents that exactly match a given field. The field is not analyzed; instead, it is matched against the value that’s stored as-is in the inverted index during indexing.
+
+    GET movies/_search
+    {
+      "query": {
+        "term": {
+          "title": "inception"
+        }
+      }
+    }
+    
+term queries are not analyzed; that is, the query criteria will be matched exactly with the values stored in the inverted indices. The reason for this is that Elasticsearch analyzes text fields during indexing as well as when searching but term-level queries are not analyzed
