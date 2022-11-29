@@ -94,7 +94,8 @@ Use the exists query to fetch documents for a given field if the field exists. I
 
 The following query checks whether the movies index has documents with a field title as well as certificate:
 
-# This query searches if the title field exits
+This query searches if the title field exits
+
     GET movies/_search
     {
       "query": {
@@ -104,7 +105,8 @@ The following query checks whether the movies index has documents with a field t
       }
     }
 
-# This query searches if the certificate field exits
+This query searches if the certificate field exits
+
     GET movies/_search
     {
       "query": {
@@ -200,3 +202,20 @@ Elasticsearch applies fuzziness=1 (as in the above code), meaning only one lette
         }
       }
     }
+
+## Full-Text Queries
+
+Elasticsearch provides the capability to search unstructured data in the form of full-text search queries. A full-text search tries to fetch relevant documents—documents that are pretty close to what the user is searching for!
+
+### Match-All Query
+
+This query fetches all documents available in the index in one go.
+
+    GET movies/_search
+    {
+      "query": {
+        "match_all": { }
+      }
+    }
+    
+The same query can be rewritten in a shorter format, like this: GET movies/_search. Behind the scenes, Elasticsearch executes a match_all query.
