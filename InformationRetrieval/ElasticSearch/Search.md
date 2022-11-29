@@ -219,3 +219,128 @@ This query fetches all documents available in the index in one go.
     }
     
 The same query can be rewritten in a shorter format, like this: GET movies/_search. Behind the scenes, Elasticsearch executes a match_all query.
+
+### Match Query
+The match query is a very common query that searches for a set of words in a text field. The query will be text-analyzed by the appropriate analyzer and searched. The results will be associated with the _score value called relevancy scoring. A positive number indicating how close the results are to the user's query. The relevancy algorithm uses Term Frequency (TF), Inverse Document Frequency (IDF), and Field Length Norm to calculate a score.
+
+    GET movies/_search
+    {
+      "_source": ["title"],  #suppressing all fields except title by setting the required fields in the _source attributes.
+      "query": {
+        "match": {
+          "title": "Godfather"
+        }
+      }
+    }
+    
+When we provide multiple words in a match query, by default they are queried individually. That is, if search is for "Godfather Knight" in a title field, Elasticsearch searches for all documents consisting of "Godfather" or "Knight" in the title field. However, if intention is to fetch a movie where title has both words "Godfather" and "Knight", the query should have an AND operator.
+
+    GET movies/_search
+    {
+      "query": {
+        "match": {
+          "title": {
+            "query": "Godfather Knight",
+            "operator": "and"
+          }
+        }
+      }
+    }
+    
+### Match with Fuzziness
+The query is set with fuzziness as 1, meaning one-letter edits are permissible. Elasticsearch will find one-letter combinations and permutations.
+
+    GET movies/_search
+    {
+      "query": {
+        "match": {
+          "title": {
+            "query": "Night Club",
+            "operator": "and", 
+            "fuzziness": 1
+          }
+        }
+      }
+      
+### Match Phrase Queries
+
+ The match_phrase query, finds documents that match a given phrase exactly. The idea behind the match phrase is to search for a phrase (group of words) in a given field in the same order. For example, if you are looking for the phrase “ability to fight injustice” in the synopsis of a movie, documents are searched with those words in that order.
+ 
+ 
+     GET movies/_search
+    {
+      "_source": ["title","synopsis"], 
+      "query": {
+        "match_phrase": {
+          "synopsis": "ability to fight injustice"
+        }
+      }
+    }
+    
+### Match Phrase Query with Slop
+
+Slop allows a certain number of words to be dropped from the phrase.Adding a slop as 1 fetches the results even though the phrase has a missing word
+
+
+    GET movies/_search
+    {
+      "_source": ["title","synopsis"], 
+      "query": {
+        "match_phrase": {
+          "synopsis": {
+            "query": "ability fight injustice",
+            "slop": 1
+          }
+        }
+        
+### Multi-Match Query
+The multi_match query searches the criteria across multiple fields. For example, if we want to search for "Rings" across the two fields (title and synopsis)
+
+
+    GET movies/_search
+    {
+      "query": {
+        "multi_match": {
+          "query": "Rings",
+          "fields": ["title","synopsis"]
+        }
+      },
+      "highlight": {
+        "fields": {
+          "title": {},
+          "synopsis": {}
+        }
+      }
+    }
+    
+## Request URL Search
+
+Here we provide query criteria on the query itself, however ,  it is a bit error prone, when the query gets a bit more advanced.
+
+    # Searching for actor Brad Pitt's movies
+    GET movies/_search?q=actors:pitt
+
+    # Search for movies with "Godfather" in the title and starred by "Pitt"
+    GET movies/_search?q=actors:pitt title:Godfather&default_operator=AND
+    
+### Query String Queries
+The query_string type lets construct a query similar to Kibana Query Language (KQL) using operators such as AND or OR, > (greater than), <= (less than or equal to), * (contains in), and others.
+
+    GET movies/_search
+    {
+      "query": {
+        "query_string": {
+          "query": "actors:Freeman AND certificate:R AND genre:Drama"
+        }
+      }
+    }
+    
+The query_string query expects a query parameter that contains the search criteria. The query is constructed as name-value pairs. The query_string query is strict on syntax, and input errors are not forgiven. The simple_query_string query is a variant of the query_string query with a simple and limited syntax. We can use operators such as +, -, |, *, ~, and so forth for constructing the query.
+
+## Compound Queries
+Compound queries involve advanced searches with conditional clauses that satisfy multiple search criteria. They are made of individual leaf queries wrapped in conditional clauses and other constructs.
+
+### Boolean (bool) Query
+The Boolean (bool) query combines criteria using Boolean and conditional clauses. It is the most common and flexible compound query you can use to create a set of complex criteria for searching data.
+
+Each conditional clause can be defined with a leaf query made of term-level or full-text queries. These clauses has a typed occurrence of must, must_not, should, or filter clauses.
